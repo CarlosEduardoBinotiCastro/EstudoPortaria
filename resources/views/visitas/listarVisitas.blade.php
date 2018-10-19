@@ -72,8 +72,10 @@
                          <th>Local</th>
                          <th>Assunto</th>
                          <th>Porteiro</th>
+                         @if (Auth::user()->idGrupo == 1)
                            <th>Editar</th>
                            <th>Apagar</th>
+                        @endif
                        </thead>
         <tbody>
 
@@ -108,8 +110,10 @@
             <td>{{$visita->nomeLocal}}</td>
             <td>{{$visita->assunto}}</td>
             <td>{{$visita->porteiro}}</td>
-            <td><a href='/informacoesVisita/{{$visita->visitaID}}' class="btn btn-primary">Editar</a></td>
-            <td><a href='' class="btn btn-danger" data-toggle="modal" data-target="#myModal{{$visita->visitaID}}">Apagar</a></td>
+            @if (Auth::user()->idGrupo == 1)
+                <td><a href='/informacoesVisita/{{$visita->visitaID}}' class="btn btn-primary">Editar</a></td>
+                <td><a href='' class="btn btn-danger" data-toggle="modal" data-target="#myModal{{$visita->visitaID}}">Apagar</a></td>
+            @endif
             </tr>
 
 

@@ -71,7 +71,9 @@
                          <th>Número Do Documento</th>
                          <th>Editar</th>
                          <th>Cadastrar Visita</th>
-                         <th>Deletar</th>
+                         @if (Auth::user()->idGrupo == 1)
+                            <th>Deletar</th>
+                         @endif
                        </thead>
         <tbody>
 
@@ -97,7 +99,7 @@
             <td>{{$visitante->numeroDoc}}</td>
          <td><a href='/informacoesVisitante/{{$visitante->visitanteID}}' class="btn btn-primary">Editar</a></td>
             <td><a href='/cadastrarVisita/{{$visitante->visitanteID}}' class="btn btn-primary">Cadastrar Visita</a></td>
-            <td><a href='' class="btn btn-danger" data-toggle="modal" data-target="#myModal{{$visitante->visitanteID}}">Deletar</a></td>
+            @if (Auth::user()->idGrupo == 1) <td><a href='' class="btn btn-danger" data-toggle="modal" data-target="#myModal{{$visitante->visitanteID}}">Deletar</a></td> @endif
             </tr>
 
             <div class='modal fade' id="myModal{{$visitante->visitanteID}}f" role='dialog'>
@@ -106,26 +108,28 @@
                 </div>
             </div>
 
-            <div class="modal" tabindex="-1" role="dialog" id="myModal{{$visitante->visitanteID}}">
-                    <div class="modal-dialog" role="document">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title">Apagar Visitante</h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
-                        <div class="modal-body">
-                          <p><Strong>Visitante:</Strong> {{$visitante->nomeVisitante}} </p>
-                          <p style="text-transform: uppercase;"> <strong> Deseja realmente apagar o Visitante ? </strong> </p>
-                        </div>
-                        <div class="modal-footer">
-                          <a href='/deletarVisitante/{{$visitante->visitanteID}}' class="btn btn-danger">Apagar</a>
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            @if (Auth::user()->idGrupo == 1)
+                <div class="modal" tabindex="-1" role="dialog" id="myModal{{$visitante->visitanteID}}">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title">Apagar Visitante</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <p><Strong>Visitante:</Strong> {{$visitante->nomeVisitante}} </p>
+                              <p style="text-transform: uppercase;"> <strong> Deseja realmente apagar o Visitante ? </strong> </p>
+                            </div>
+                            <div class="modal-footer">
+                              <a href='/deletarVisitante/{{$visitante->visitanteID}}' class="btn btn-danger">Apagar</a>
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
+            @endif
 
          @endforeach
 

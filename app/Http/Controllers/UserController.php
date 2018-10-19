@@ -10,6 +10,7 @@ use App\Models\Visitante;
 use App\User;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
@@ -94,10 +95,17 @@ class UserController extends Controller
             break;
 
             default:
+                $idGrupo = User::orderBy('name')->select("idGrupo")->where('id', '=', $request->id);
+
                 if(isset($request->alterarSenha)){
                     $usuario->where('id', '=', $request->id)->update(['name' => $request->name, 'tipoDoc' => $request->tipoDoc, 'numeroDoc' => $request->numeroDoc, 'email' => $request->email, 'password' => Hash::make($request->password), 'status' => $request->status, 'idGrupo' => $request->idGrupo]) ;
                 }else{
                     $usuario->where('id', '=', $request->id)->update(['name' => $request->name, 'tipoDoc' => $request->tipoDoc, 'numeroDoc' => $request->numeroDoc, 'email' => $request->email, 'status' => $request->status, 'idGrupo' => $request->idGrupo]);
+                }
+
+                if($request->idGrupo != $idGrupo){
+                    Auth::logout();
+                    Session::flush();
                 }
 
                 return redirect('/carregarHome')->with("sucesso", "Usuario Editado");
